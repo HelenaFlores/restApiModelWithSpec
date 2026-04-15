@@ -1,20 +1,20 @@
 package tests.login;
 
-import api.AuthApiClient;
 import models.login.LoginBodyModel;
 import models.login.SuccessfulLoginResponseModel;
 import models.login.WrongCredentialsLoginResponseModel;
 import org.junit.jupiter.api.Test;
+import tests.TestBase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static tests.TestData.*;
 
-public class LoginTests {
+public class LoginTests extends TestBase {
     @Test
     public void successfulLoginTest() {
         LoginBodyModel loginData = new LoginBodyModel(LOGIN_USERNAME, LOGIN_PASSWORD);
 
-        SuccessfulLoginResponseModel loginResponse = ;
+        SuccessfulLoginResponseModel loginResponse = api.auth.login(loginData);
 
         String actualAccess = loginResponse.access();
         String actualRefresh = loginResponse.refresh();
@@ -36,5 +36,4 @@ public class LoginTests {
 
     // todo add more negative tests
 
-}
 }
