@@ -15,8 +15,10 @@ public class TestData {
     public static final String REGISTRATION_WRONG_WITHOUT_PASSWORD_OR_LOGIN =
             "This field is required.";
 
-    public static final String REGISTRATION_WRONG_PASSWORD_OR_LOGIN_NULL =
+    public static final String LOGIN_WRONG_PASSWORD_OR_USERNAME_NULL =
             null;
+    public static final String LOGIN_WRONG_PASSWORD_OR_USERNAME_NULL_ERROR =
+            "This field may not be null.";
 
     public static final String REGISTRATION_IP_REGEXP =
             "^((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.){3}"

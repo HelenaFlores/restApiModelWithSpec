@@ -16,7 +16,7 @@ public class LoginSpec {
             .log(ALL)
             .expectStatusCode(200)
             .expectBody(matchesJsonSchemaInClasspath(
-                    "schemas/login/successful_login_response_schema.json"))
+                    "schemas/login/successful_login_response_schema.jsonc"))
             .expectBody("access", notNullValue())
             .expectBody("refresh", notNullValue())
             .build();
@@ -27,6 +27,23 @@ public class LoginSpec {
             .expectBody(matchesJsonSchemaInClasspath(
                     "schemas/login/wrong_credentials_login_response_schema.json"))
             .expectBody("detail", notNullValue())
+            .build();
+
+    public static ResponseSpecification wrongLoginNullUsernameResponseSpec = new ResponseSpecBuilder()
+            .log(ALL)
+            .expectStatusCode(400)
+            .expectBody(matchesJsonSchemaInClasspath(
+                    "schemas/login/wrong_login_username_response_schema.json"))
+            .expectBody("username", notNullValue())
+            .build();
+
+
+    public static ResponseSpecification wrongLoginNullPasswordResponseSpec = new ResponseSpecBuilder()
+            .log(ALL)
+            .expectStatusCode(400)
+            .expectBody(matchesJsonSchemaInClasspath(
+                    "schemas/login/wrong_login_password_response_schema.json"))
+            .expectBody("password", notNullValue())
             .build();
 
 

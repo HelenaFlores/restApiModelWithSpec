@@ -1,13 +1,9 @@
 package api;
 
-import models.registration.ExistingUserResponseModel;
-import models.registration.RegistrationBodyModel;
-import models.registration.SuccessfulRegistrationResponseModel;
+import models.registration.*;
 
 import static io.restassured.RestAssured.given;
-import static specs.registration.RegistrationSpec.existingUserRegistrationResponseSpec;
-import static specs.registration.RegistrationSpec.registrationRequestSpec;
-import static specs.registration.RegistrationSpec.successfulRegistrationResponseSpec;
+import static specs.registration.RegistrationSpec.*;
 
 public class UsersApiClient {
 
@@ -31,5 +27,27 @@ public class UsersApiClient {
                 .spec(existingUserRegistrationResponseSpec)
                 .extract()
                 .as(ExistingUserResponseModel.class);
+    }
+
+    public WrongRegistrationWithoutPasswordResponseModel registerWithoutPassword(RegistrationBodyWithoutPasswordModel body) {
+        return given(registrationRequestSpec)
+                .body(body)
+                .when()
+                .post("/users/register/")
+                .then()
+                .spec(wrongRegistrationWithoutPasswordResponseSpec)
+                .extract()
+                .as(WrongRegistrationWithoutPasswordResponseModel.class);
+    }
+
+    public WrongRegistrationWithoutLoginResponseModel registerWithoutLogin(RegistrationBodyWithoutLoginModel body) {
+        return given(registrationRequestSpec)
+                .body(body)
+                .when()
+                .post("/users/register/")
+                .then()
+                .spec(wrongRegistrationWithoutLoginResponseSpec)
+                .extract()
+                .as(WrongRegistrationWithoutLoginResponseModel.class);
     }
 }
