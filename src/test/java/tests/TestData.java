@@ -2,8 +2,8 @@ package tests;
 
 public class TestData {
 
-    public static final String LOGIN_USERNAME = "user8";
-    public static final String LOGIN_PASSWORD = "user8";
+    public static final String LOGIN_USERNAME = "s.test";
+    public static final String LOGIN_PASSWORD = "s.test";
     public static final String LOGIN_WRONG_PASSWORD = "qaguru1234";
 
     public static final String LOGIN_TOKEN_PREFIX = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
@@ -11,6 +11,12 @@ public class TestData {
 
     public static final String REGISTRATION_EXISTING_USER_ERROR =
             "A user with that username already exists.";
+
+    public static final String REGISTRATION_WRONG_WITHOUT_PASSWORD_OR_LOGIN =
+            "This field is required.";
+
+    public static final String REGISTRATION_WRONG_PASSWORD_OR_LOGIN_NULL =
+            null;
 
     public static final String REGISTRATION_IP_REGEXP =
             "^((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.){3}"

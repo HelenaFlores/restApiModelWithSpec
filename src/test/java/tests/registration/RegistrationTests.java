@@ -1,14 +1,12 @@
 package tests.registration;
 
-import models.registration.ExistingUserResponseModel;
-import models.registration.RegistrationBodyModel;
-import models.registration.SuccessfulRegistrationResponseModel;
+import models.registration.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tests.TestBase;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static tests.TestData.REGISTRATION_EXISTING_USER_ERROR;
-import static tests.TestData.REGISTRATION_IP_REGEXP;
+import static tests.TestData.*;
 
 public class RegistrationTests extends TestBase {
 
@@ -17,7 +15,7 @@ public class RegistrationTests extends TestBase {
 
     @BeforeEach
     public void prepareTestData() {
-        // оставляем генерацию данных в тесте, чтобы каждый запуск был с новыми пользователями
+
         username = "user_" + System.currentTimeMillis();
         password = "pass_" + System.currentTimeMillis();
     }
@@ -55,6 +53,29 @@ public class RegistrationTests extends TestBase {
         assertThat(actualError).isEqualTo(expectedError);
     }
 
-    // todo add more negative tests
+    @Test
+    public void wrongRegistrationWithoutPasswordTest() {
+        RegistrationBodyWithoutPasswordModel registrationData = new RegistrationBodyWithoutPasswordModel(username);
+
+        WrongRegistrationWithoutPasswordResponseModel registrationResponse =
+                api.users.registerWithoutPassword(registrationData);
+
+        String expectedError = REGISTRATION_WRONG_WITHOUT_PASSWORD_OR_LOGIN;
+        String actualError = registrationResponse.password().get(0);
+        assertThat(actualError).isEqualTo(expectedError);
+    }
+
+    @Test
+    public void wrongRegistrationWithoutLoginTest() {
+        RegistrationBodyWithoutLoginModel registrationData = new RegistrationBodyWithoutLoginModel(password);
+
+        WrongRegistrationWithoutLoginResponseModel registrationResponse =
+                api.users.registerWithoutLogin(registrationData);
+
+        String expectedError = REGISTRATION_WRONG_WITHOUT_PASSWORD_OR_LOGIN;
+        String actualError = registrationResponse.username().get(0);
+        assertThat(actualError).isEqualTo(expectedError);
+    }
+
 
 }

@@ -3,6 +3,7 @@ package tests.logout;
 import models.login.LoginBodyModel;
 import models.logout.LogoutBodyModel;
 import org.junit.jupiter.api.Test;
+import tests.TestBase;
 
 import static tests.TestData.LOGIN_PASSWORD;
 import static tests.TestData.LOGIN_USERNAME;
