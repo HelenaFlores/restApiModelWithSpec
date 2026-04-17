@@ -14,11 +14,7 @@ import static specs.BaseSpec.baseRequestSpec;
 
 public class UpdateSpec {
 
-    public static RequestSpecification updateRequestSpec = with()
-            .filter(withCustomTemplate())
-            .log().all()
-            .contentType(JSON)
-            .basePath("/api/v1");
+    public static RequestSpecification updateRequestSpec = baseRequestSpec;
 
     public static ResponseSpecification successfulPutUpdateResponseSpec = new ResponseSpecBuilder()
             .log(ALL)
