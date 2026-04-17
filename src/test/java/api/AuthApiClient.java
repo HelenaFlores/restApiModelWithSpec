@@ -1,16 +1,19 @@
 package api;
 
 import io.qameta.allure.Step;
-import io.restassured.response.ValidatableResponse;
 import models.login.*;
 import models.logout.LogoutBodyModel;
 import models.logout.LogoutEmptyBodyModel;
 import models.logout.WrongLogoutNoValidTokenResponseModel;
 import models.logout.WrongLogoutWithoutTokenResponseModel;
+import models.update.AllUpdateBodyModel;
+import models.update.SuccessfulAllUpdateResponseModel;
+import models.update.WrongAllUpdateMethodAllowedResponseModel;
 
 import static io.restassured.RestAssured.given;
 import static specs.login.LoginSpec.*;
 import static specs.logout.LogoutSpec.*;
+import static specs.update.UpdateSpec.*;
 
 public class AuthApiClient {
 
@@ -25,8 +28,8 @@ public class AuthApiClient {
                 .as(SuccessfulLoginResponseModel.class);
     }
 
-    @Step("Авторизация и получение токена")
-    public String loginAndGetRefreshToken(LoginBodyModel loginBody) {
+    @Step("Авторизация и получение рефреш токена")
+    public static String loginAndGetRefreshToken(LoginBodyModel loginBody) {
         return given(loginRequestSpec)
                 .body(loginBody)
                 .when()
@@ -35,6 +38,18 @@ public class AuthApiClient {
                 .spec(successfulLoginResponseSpec)
                 .extract()
                 .path("refresh");
+    }
+
+    @Step("Авторизация и получение access токена")
+    public String loginAndGetAccessToken(LoginBodyModel loginBody) {
+        return given(loginRequestSpec)
+                .body(loginBody)
+                .when()
+                .post("/auth/token/")
+                .then()
+                .spec(successfulLoginResponseSpec)
+                .extract()
+                .path("access");
     }
 
     public WrongCredentialsLoginResponseModel loginWrongCredentials(LoginBodyModel loginBody) {
@@ -49,7 +64,7 @@ public class AuthApiClient {
     }
 
     @Step("Отправка запроса logout")
-    public void logout(LogoutBodyModel logoutBody) {
+    public static void logout(LogoutBodyModel logoutBody) {
         given(logoutRequestSpec)
                 .body(logoutBody)
                 .when()
@@ -101,5 +116,31 @@ public class AuthApiClient {
                 .spec(wrongLoginNullPasswordResponseSpec)
                 .extract()
                 .as(WrongLoginNullPasswordResponseModel.class);
+    }
+
+    @Step("Отправка запроса put update")
+    public static SuccessfulAllUpdateResponseModel putUpdate(String accessToken, AllUpdateBodyModel putUpdateBody) {
+      return given(updateRequestSpec)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(putUpdateBody)
+                .when()
+                .put("/users/me/")
+                .then()
+                .spec(successfulPutUpdateResponseSpec)
+                .extract()
+                .as(SuccessfulAllUpdateResponseModel.class);
+    }
+
+    @Step("Отправка запроса put update")
+    public static WrongAllUpdateMethodAllowedResponseModel errorMethodAllowedPutUpdate(String accessToken, AllUpdateBodyModel putUpdateBody) {
+        return given(updateRequestSpec)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(putUpdateBody)
+                .when()
+                .post("/users/me/")
+                .then()
+                .spec(errorMethodAllowedResponseSpec)
+                .extract()
+                .as(WrongAllUpdateMethodAllowedResponseModel.class);
     }
 }
