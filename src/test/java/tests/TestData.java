@@ -34,6 +34,6 @@ public class TestData {
     public static final String LOGOUT_WRONG_REFRESH_ERROR =
             "This field is required.";
 
-    public static final String PUT_UPDATE_WRONG_DETAIL_ERROR = "Method \"POST\" not allowed.";
+    public static final String UPDATE_WRONG_DETAIL_ERROR = "Method \"POST\" not allowed.";
 
 }

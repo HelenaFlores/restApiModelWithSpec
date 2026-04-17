@@ -7,8 +7,9 @@ import models.logout.LogoutEmptyBodyModel;
 import models.logout.WrongLogoutNoValidTokenResponseModel;
 import models.logout.WrongLogoutWithoutTokenResponseModel;
 import models.update.AllUpdateBodyModel;
-import models.update.SuccessfulAllUpdateResponseModel;
-import models.update.WrongAllUpdateMethodAllowedResponseModel;
+import models.update.PartialUpdateBodyModel;
+import models.update.SuccessfulUpdateResponseModel;
+import models.update.WrongUpdateMethodAllowedResponseModel;
 
 import static io.restassured.RestAssured.given;
 import static specs.login.LoginSpec.*;
@@ -118,7 +119,7 @@ public class AuthApiClient {
     }
 
     @Step("Отправка запроса put update")
-    public static SuccessfulAllUpdateResponseModel putUpdate(String accessToken, AllUpdateBodyModel putUpdateBody) {
+    public static SuccessfulUpdateResponseModel putUpdate(String accessToken, AllUpdateBodyModel putUpdateBody) {
       return given(updateRequestSpec)
                 .header("Authorization", "Bearer " + accessToken)
                 .body(putUpdateBody)
@@ -127,11 +128,24 @@ public class AuthApiClient {
                 .then()
                 .spec(successfulPutUpdateResponseSpec)
                 .extract()
-                .as(SuccessfulAllUpdateResponseModel.class);
+                .as(SuccessfulUpdateResponseModel.class);
+    }
+
+    @Step("Отправка запроса patch update")
+    public static SuccessfulUpdateResponseModel putPartialUpdate(String accessToken, PartialUpdateBodyModel putUpdateBody) {
+        return given(updateRequestSpec)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(putUpdateBody)
+                .when()
+                .patch("/users/me/")
+                .then()
+                .spec(successfulPutUpdateResponseSpec)
+                .extract()
+                .as(SuccessfulUpdateResponseModel.class);
     }
 
     @Step("Отправка запроса post update")
-    public static WrongAllUpdateMethodAllowedResponseModel errorMethodAllowedPutUpdate(String accessToken, AllUpdateBodyModel putUpdateBody) {
+    public static WrongUpdateMethodAllowedResponseModel errorMethodAllowedPutUpdate(String accessToken, AllUpdateBodyModel putUpdateBody) {
         return given(updateRequestSpec)
                 .header("Authorization", "Bearer " + accessToken)
                 .body(putUpdateBody)
@@ -140,6 +154,19 @@ public class AuthApiClient {
                 .then()
                 .spec(errorMethodAllowedResponseSpec)
                 .extract()
-                .as(WrongAllUpdateMethodAllowedResponseModel.class);
+                .as(WrongUpdateMethodAllowedResponseModel.class);
+    }
+
+    @Step("Отправка запроса post update")
+    public static WrongUpdateMethodAllowedResponseModel errorMethodAllowedPatchUpdate(String accessToken, PartialUpdateBodyModel putUpdateBody) {
+        return given(updateRequestSpec)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(putUpdateBody)
+                .when()
+                .post("/users/me/")
+                .then()
+                .spec(errorMethodAllowedResponseSpec)
+                .extract()
+                .as(WrongUpdateMethodAllowedResponseModel.class);
     }
 }
