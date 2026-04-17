@@ -1,13 +1,16 @@
 package api;
 
 import io.qameta.allure.Step;
+import io.restassured.response.ValidatableResponse;
 import models.login.*;
 import models.logout.LogoutBodyModel;
+import models.logout.LogoutEmptyBodyModel;
+import models.logout.WrongLogoutNoValidTokenResponseModel;
+import models.logout.WrongLogoutWithoutTokenResponseModel;
 
 import static io.restassured.RestAssured.given;
 import static specs.login.LoginSpec.*;
-import static specs.logout.LogoutSpec.logoutRequestSpec;
-import static specs.logout.LogoutSpec.successfulLogoutResponseSpec;
+import static specs.logout.LogoutSpec.*;
 
 public class AuthApiClient {
 
@@ -53,6 +56,29 @@ public class AuthApiClient {
                 .post("/auth/logout/")
                 .then()
                 .spec(successfulLogoutResponseSpec);
+    }
+
+
+    public WrongLogoutNoValidTokenResponseModel logoutNoValidToken(LogoutBodyModel logoutBody) {
+        return given(logoutRequestSpec)
+                .body(logoutBody)
+                .when()
+                .post("/auth/logout/")
+                .then()
+                .spec(errorNoValidNokenLogoutResponseSpec)
+                .extract()
+                .as(WrongLogoutNoValidTokenResponseModel.class);
+    }
+
+    public WrongLogoutWithoutTokenResponseModel logoutWithoutRefreshToken(LogoutEmptyBodyModel logoutBody) {
+       return given(logoutRequestSpec)
+                .body(logoutBody)
+                .when()
+                .post("/auth/logout/")
+                .then()
+                .spec(errorEmptyBodyLogoutResponseSpec)
+                .extract()
+                .as(WrongLogoutWithoutTokenResponseModel.class);
     }
 
     public WrongLoginNullUsernameResponseModel wrongLoginNullUsernameResponse(LoginBodyModel loginBody) {
