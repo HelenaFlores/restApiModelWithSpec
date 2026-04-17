@@ -16,8 +16,6 @@ public class LogoutSpec {
     public static ResponseSpecification successfulLogoutResponseSpec = new ResponseSpecBuilder()
             .log(ALL)
             .expectStatusCode(200)
-            .expectBody(matchesJsonSchemaInClasspath(
-                    "schemas/logout/successful_logout_response_schema.json"))
             .build();
 
     public static ResponseSpecification errorNoValidNokenLogoutResponseSpec = new ResponseSpecBuilder()

@@ -73,7 +73,6 @@ public class AuthApiClient {
                 .spec(successfulLogoutResponseSpec);
     }
 
-
     public WrongLogoutNoValidTokenResponseModel logoutNoValidToken(LogoutBodyModel logoutBody) {
         return given(logoutRequestSpec)
                 .body(logoutBody)
@@ -131,7 +130,7 @@ public class AuthApiClient {
                 .as(SuccessfulAllUpdateResponseModel.class);
     }
 
-    @Step("Отправка запроса put update")
+    @Step("Отправка запроса post update")
     public static WrongAllUpdateMethodAllowedResponseModel errorMethodAllowedPutUpdate(String accessToken, AllUpdateBodyModel putUpdateBody) {
         return given(updateRequestSpec)
                 .header("Authorization", "Bearer " + accessToken)
