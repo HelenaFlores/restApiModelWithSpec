@@ -36,8 +36,7 @@ public class AllUpdateUserTests extends TestBase {
     @Test
     public void successfulAllUpdateTest() {
         RegistrationBodyModel registrationData = new RegistrationBodyModel(username, password);
-        SuccessfulRegistrationResponseModel registrationResponse =
-                api.users.register(registrationData);
+                        api.users.register(registrationData);
 
         LoginBodyModel loginData = new LoginBodyModel(registrationData.username(), registrationData.password());
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
@@ -53,8 +52,7 @@ public class AllUpdateUserTests extends TestBase {
     @Test
     public void wrongMethodAllowedAllUpdateTest() {
         RegistrationBodyModel registrationData = new RegistrationBodyModel(username, password);
-        SuccessfulRegistrationResponseModel registrationResponse =
-                api.users.register(registrationData);
+                        api.users.register(registrationData);
 
         LoginBodyModel loginData = new LoginBodyModel(registrationData.username(), registrationData.password());
         String accessToken = api.auth.loginAndGetAccessToken(loginData);

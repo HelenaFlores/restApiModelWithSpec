@@ -36,8 +36,7 @@ import static tests.TestData.*;
         @Test
         public void successfulPartialUpdateTest() {
             RegistrationBodyModel registrationData = new RegistrationBodyModel(username, password);
-            SuccessfulRegistrationResponseModel registrationResponse =
-                    api.users.register(registrationData);
+                api.users.register(registrationData);
 
             LoginBodyModel loginData = new LoginBodyModel(registrationData.username(), registrationData.password());
             String accessToken = api.auth.loginAndGetAccessToken(loginData);
@@ -53,8 +52,7 @@ import static tests.TestData.*;
         @Test
         public void wrongMethodAllowedPartialUpdateTest() {
             RegistrationBodyModel registrationData = new RegistrationBodyModel(username, password);
-            SuccessfulRegistrationResponseModel registrationResponse =
-                    api.users.register(registrationData);
+                api.users.register(registrationData);
 
             LoginBodyModel loginData = new LoginBodyModel(registrationData.username(), registrationData.password());
             String accessToken = api.auth.loginAndGetAccessToken(loginData);
