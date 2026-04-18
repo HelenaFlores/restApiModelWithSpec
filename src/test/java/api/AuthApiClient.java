@@ -18,6 +18,7 @@ import static specs.update.UpdateSpec.*;
 
 public class AuthApiClient {
 
+    @Step("Авторизация")
     public SuccessfulLoginResponseModel login(LoginBodyModel loginBody) {
         return given(loginRequestSpec)
                 .body(loginBody)
@@ -53,6 +54,7 @@ public class AuthApiClient {
                 .path("access");
     }
 
+    @Step("Авторизация с ошибочными данными логина или пароля")
     public WrongCredentialsLoginResponseModel loginWrongCredentials(LoginBodyModel loginBody) {
         return given(loginRequestSpec)
                 .body(loginBody)
@@ -64,38 +66,7 @@ public class AuthApiClient {
                 .as(WrongCredentialsLoginResponseModel.class);
     }
 
-    @Step("Отправка запроса logout")
-    public static void logout(LogoutBodyModel logoutBody) {
-        given(logoutRequestSpec)
-                .body(logoutBody)
-                .when()
-                .post("/auth/logout/")
-                .then()
-                .spec(successfulLogoutResponseSpec);
-    }
-
-    public WrongLogoutNoValidTokenResponseModel logoutNoValidToken(LogoutBodyModel logoutBody) {
-        return given(logoutRequestSpec)
-                .body(logoutBody)
-                .when()
-                .post("/auth/logout/")
-                .then()
-                .spec(errorNoValidNokenLogoutResponseSpec)
-                .extract()
-                .as(WrongLogoutNoValidTokenResponseModel.class);
-    }
-
-    public WrongLogoutWithoutTokenResponseModel logoutWithoutRefreshToken(LogoutEmptyBodyModel logoutBody) {
-       return given(logoutRequestSpec)
-                .body(logoutBody)
-                .when()
-                .post("/auth/logout/")
-                .then()
-                .spec(errorEmptyBodyLogoutResponseSpec)
-                .extract()
-                .as(WrongLogoutWithoutTokenResponseModel.class);
-    }
-
+    @Step("Авторизация с пустым username")
     public WrongLoginNullUsernameResponseModel wrongLoginNullUsernameResponse(LoginBodyModel loginBody) {
         return given(loginRequestSpec)
                 .body(loginBody)
@@ -107,6 +78,7 @@ public class AuthApiClient {
                 .as(WrongLoginNullUsernameResponseModel.class);
     }
 
+    @Step("Авторизация с пустым password")
     public WrongLoginNullPasswordResponseModel wrongLoginNullPasswordResponse(LoginBodyModel loginBody) {
         return given(loginRequestSpec)
                 .body(loginBody)
@@ -117,8 +89,41 @@ public class AuthApiClient {
                 .extract()
                 .as(WrongLoginNullPasswordResponseModel.class);
     }
+    @Step("Отправка запроса logout с валидным refresh токеном")
+    public static void logout(LogoutBodyModel logoutBody) {
+        given(logoutRequestSpec)
+                .body(logoutBody)
+                .when()
+                .post("/auth/logout/")
+                .then()
+                .spec(successfulLogoutResponseSpec);
+    }
 
-    @Step("Отправка запроса put update")
+    @Step("Отправка запроса logout с невалидным refresh токеном")
+    public WrongLogoutNoValidTokenResponseModel logoutNoValidToken(LogoutBodyModel logoutBody) {
+        return given(logoutRequestSpec)
+                .body(logoutBody)
+                .when()
+                .post("/auth/logout/")
+                .then()
+                .spec(errorNoValidNokenLogoutResponseSpec)
+                .extract()
+                .as(WrongLogoutNoValidTokenResponseModel.class);
+    }
+
+    @Step("Отправка запроса logout без refresh токена")
+    public WrongLogoutWithoutTokenResponseModel logoutWithoutRefreshToken(LogoutEmptyBodyModel logoutBody) {
+       return given(logoutRequestSpec)
+                .body(logoutBody)
+                .when()
+                .post("/auth/logout/")
+                .then()
+                .spec(errorEmptyBodyLogoutResponseSpec)
+                .extract()
+                .as(WrongLogoutWithoutTokenResponseModel.class);
+    }
+
+    @Step("Отправка put запроса на успешное обновление пользователя")
     public static SuccessfulUpdateResponseModel putUpdate(String accessToken, AllUpdateBodyModel putUpdateBody) {
       return given(updateRequestSpec)
                 .header("Authorization", "Bearer " + accessToken)
@@ -131,7 +136,7 @@ public class AuthApiClient {
                 .as(SuccessfulUpdateResponseModel.class);
     }
 
-    @Step("Отправка запроса patch update")
+    @Step("Отправка patch запроса на успешное обновление пользователя")
     public static SuccessfulUpdateResponseModel putPartialUpdate(String accessToken, PartialUpdateBodyModel putUpdateBody) {
         return given(updateRequestSpec)
                 .header("Authorization", "Bearer " + accessToken)
@@ -144,7 +149,7 @@ public class AuthApiClient {
                 .as(SuccessfulUpdateResponseModel.class);
     }
 
-    @Step("Отправка запроса post update")
+    @Step("Отправка put запроса на обновление пользователя с неверным методом - post")
     public static WrongUpdateMethodAllowedResponseModel errorMethodAllowedPutUpdate(String accessToken, AllUpdateBodyModel putUpdateBody) {
         return given(updateRequestSpec)
                 .header("Authorization", "Bearer " + accessToken)
@@ -157,7 +162,7 @@ public class AuthApiClient {
                 .as(WrongUpdateMethodAllowedResponseModel.class);
     }
 
-    @Step("Отправка запроса post update")
+    @Step("Отправка patch запроса на обновление пользователя с неверным методом - post")
     public static WrongUpdateMethodAllowedResponseModel errorMethodAllowedPatchUpdate(String accessToken, PartialUpdateBodyModel putUpdateBody) {
         return given(updateRequestSpec)
                 .header("Authorization", "Bearer " + accessToken)

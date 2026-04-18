@@ -1,5 +1,6 @@
 package api;
 
+import io.qameta.allure.Step;
 import models.registration.*;
 
 import static io.restassured.RestAssured.given;
@@ -7,6 +8,7 @@ import static specs.registration.RegistrationSpec.*;
 
 public class UsersApiClient {
 
+    @Step("Отправка register запроса на создание пользователя")
     public SuccessfulRegistrationResponseModel register(RegistrationBodyModel body) {
         return given(registrationRequestSpec)
                 .body(body)
@@ -18,6 +20,7 @@ public class UsersApiClient {
                 .as(SuccessfulRegistrationResponseModel.class);
     }
 
+    @Step("Отправка register запроса на создание существующего пользователя")
     public ExistingUserResponseModel registerExistingUser(RegistrationBodyModel body) {
         return given(registrationRequestSpec)
                 .body(body)
@@ -29,6 +32,7 @@ public class UsersApiClient {
                 .as(ExistingUserResponseModel.class);
     }
 
+    @Step("Отправка register запроса на создание пользователя без password")
     public WrongRegistrationWithoutPasswordResponseModel registerWithoutPassword(RegistrationBodyWithoutPasswordModel body) {
         return given(registrationRequestSpec)
                 .body(body)
@@ -40,6 +44,7 @@ public class UsersApiClient {
                 .as(WrongRegistrationWithoutPasswordResponseModel.class);
     }
 
+    @Step("Отправка register запроса на создание пользователя без username")
     public WrongRegistrationWithoutLoginResponseModel registerWithoutLogin(RegistrationBodyWithoutLoginModel body) {
         return given(registrationRequestSpec)
                 .body(body)

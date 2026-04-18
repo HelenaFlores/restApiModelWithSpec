@@ -2,7 +2,6 @@ package tests.update.patch;
 
 import models.login.LoginBodyModel;
 import models.registration.RegistrationBodyModel;
-import models.registration.SuccessfulRegistrationResponseModel;
 import models.update.PartialUpdateBodyModel;
 import models.update.SuccessfulUpdateResponseModel;
 import models.update.WrongUpdateMethodAllowedResponseModel;
