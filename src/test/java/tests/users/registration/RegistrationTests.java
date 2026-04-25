@@ -1,6 +1,9 @@
 package tests.users.registration;
 
+import api.UsersApiClient;
+import models.users.login.LoginBodyModel;
 import models.users.registration.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
@@ -12,12 +15,33 @@ public class RegistrationTests extends TestBase {
 
     String username;
     String password;
+    RegistrationBodyModel registrationData;
+    boolean userCreated;
 
     @BeforeEach
     public void prepareTestData() {
 
         username = "user_" + System.currentTimeMillis();
         password = "pass_" + System.currentTimeMillis();
+        registrationData = new RegistrationBodyModel(username, password);
+        userCreated = false;
+    }
+
+    @AfterEach
+    public void after() {
+        if (!userCreated) {  // ← пользователь не создался — cleanup не нужен
+                return;
+            }
+
+        try {
+            LoginBodyModel loginData = new LoginBodyModel(registrationData.username(), registrationData.password());
+            String accessToken = api.auth.loginAndGetAccessToken(loginData);
+            if (accessToken != null) {
+                UsersApiClient.deleteUser(accessToken);
+            }
+        } catch (Exception e) {
+                System.err.println("Failed to cleanup test user: " + e.getMessage());
+            }
     }
 
     @Test
@@ -26,6 +50,7 @@ public class RegistrationTests extends TestBase {
 
         SuccessfulRegistrationResponseModel registrationResponse =
                 api.users.register(registrationData);
+        userCreated = true;
 
         assertThat(registrationResponse.id()).isGreaterThan(0);
         assertThat(registrationResponse.username()).isEqualTo(username);
@@ -42,6 +67,7 @@ public class RegistrationTests extends TestBase {
 
         SuccessfulRegistrationResponseModel firstRegistrationResponse =
                 api.users.register(registrationData);
+        userCreated = true;
 
         assertThat(firstRegistrationResponse.username()).isEqualTo(username);
 

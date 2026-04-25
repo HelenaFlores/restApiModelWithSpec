@@ -1,5 +1,6 @@
 package tests.clubs.update;
 
+import api.UsersApiClient;
 import models.clubs.create.CreateClubBodyModel;
 import models.clubs.create.SuccessfulCreateClubResponseModel;
 import models.clubs.update.SuccessfulUpdateClubResponseModel;
@@ -7,6 +8,7 @@ import models.clubs.update.UpdateClubBodyModel;
 import models.users.login.LoginBodyModel;
 import models.users.registration.RegistrationBodyModel;
 import net.datafaker.Faker;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
@@ -24,6 +26,7 @@ public class UpdateClubTests extends TestBase {
     int publicationYear;
     String description;
     String telegramChatLink;
+    String accessToken;
 
     @BeforeEach
     public void prepareTestData() {
@@ -38,6 +41,13 @@ public class UpdateClubTests extends TestBase {
         telegramChatLink = "https://t.me/club_" + uniqueSuffix;
     }
 
+    @AfterEach
+    public void after() {
+        if (accessToken != null) {
+            UsersApiClient.deleteUser(accessToken);
+        }
+    }
+
     @Test
     public void successfulUpdateClubTest() {
         RegistrationBodyModel registrationData = new RegistrationBodyModel(username, password);
@@ -45,7 +55,7 @@ public class UpdateClubTests extends TestBase {
 
         LoginBodyModel loginData =
                 new LoginBodyModel(registrationData.username(), registrationData.password());
-        String accessToken = api.auth.loginAndGetAccessToken(loginData);
+        accessToken = api.auth.loginAndGetAccessToken(loginData);
 
         CreateClubBodyModel createClubBody = new CreateClubBodyModel(
                 bookTitle,

@@ -1,7 +1,7 @@
-package tests.clubs.delete;
+package tests.users.delete;
 
 import api.ClubsApiClient;
-import io.restassured.response.ValidatableResponse;
+import api.UsersApiClient;
 import models.clubs.create.CreateClubBodyModel;
 import models.clubs.create.SuccessfulCreateClubResponseModel;
 import models.users.login.LoginBodyModel;
@@ -11,9 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class DeleteClubTests extends TestBase {
+public class DeleteUserTests extends TestBase {
 
     private final Faker faker = new Faker();
 
@@ -39,7 +37,7 @@ public class DeleteClubTests extends TestBase {
     }
 
     @Test
-    public void successfulDeleteClubTest() {
+    public void successfulDeleteUserTest() {
         RegistrationBodyModel registrationData = new RegistrationBodyModel(username, password);
         api.users.register(registrationData);
 
@@ -47,16 +45,6 @@ public class DeleteClubTests extends TestBase {
                 new LoginBodyModel(registrationData.username(), registrationData.password());
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
 
-        CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                bookTitle,
-                bookAuthors,
-                publicationYear,
-                description,
-                telegramChatLink
-        );
-        SuccessfulCreateClubResponseModel createClubResponse =
-                api.clubs.createClub(accessToken, createClubBody);
-
-        ClubsApiClient.deleteClub(accessToken, createClubResponse.id());
+        UsersApiClient.deleteUser(accessToken);
     }
 }
