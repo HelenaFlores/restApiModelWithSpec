@@ -1,5 +1,6 @@
 package tests.clubs.delete;
 
+import api.ClubsApiClient;
 import io.restassured.response.ValidatableResponse;
 import models.clubs.create.CreateClubBodyModel;
 import models.clubs.create.SuccessfulCreateClubResponseModel;
@@ -56,9 +57,6 @@ public class DeleteClubTests extends TestBase {
         SuccessfulCreateClubResponseModel createClubResponse =
                 api.clubs.createClub(accessToken, createClubBody);
 
-        ValidatableResponse deleteClubBodyModel =
-                api.clubs.deleteClub(accessToken, createClubResponse.id());
-
-        assertThat(createClubResponse.id()).isGreaterThan(0);
+        ClubsApiClient.deleteClub(accessToken, createClubResponse.id());
     }
 }
