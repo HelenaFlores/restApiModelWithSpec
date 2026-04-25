@@ -89,7 +89,7 @@ public class AuthApiClient {
                 .extract()
                 .as(WrongLoginNullPasswordResponseModel.class);
     }
-    @Step("Отправка запроса logout с валидным refresh токеном")
+    @Step("Отправка запроса LOGOUT с валидным refresh токеном")
     public static void logout(LogoutBodyModel logoutBody) {
         given(logoutRequestSpec)
                 .body(logoutBody)
@@ -99,7 +99,7 @@ public class AuthApiClient {
                 .spec(successfulLogoutResponseSpec);
     }
 
-    @Step("Отправка запроса logout с невалидным refresh токеном")
+    @Step("Отправка запроса LOGOUT с невалидным refresh токеном")
     public WrongLogoutNoValidTokenResponseModel logoutNoValidToken(LogoutBodyModel logoutBody) {
         return given(logoutRequestSpec)
                 .body(logoutBody)
@@ -111,7 +111,7 @@ public class AuthApiClient {
                 .as(WrongLogoutNoValidTokenResponseModel.class);
     }
 
-    @Step("Отправка запроса logout без refresh токена")
+    @Step("Отправка запроса LOGOUT без refresh токена")
     public WrongLogoutWithoutTokenResponseModel logoutWithoutRefreshToken(LogoutEmptyBodyModel logoutBody) {
        return given(logoutRequestSpec)
                 .body(logoutBody)
@@ -123,7 +123,7 @@ public class AuthApiClient {
                 .as(WrongLogoutWithoutTokenResponseModel.class);
     }
 
-    @Step("Отправка put запроса на успешное обновление пользователя")
+    @Step("Отправка PUT запроса на успешное обновление пользователя")
     public static SuccessfulUpdateResponseModel putUpdate(String accessToken, AllUpdateBodyModel putUpdateBody) {
       return given(updateRequestSpec)
                 .header("Authorization", "Bearer " + accessToken)
@@ -136,7 +136,7 @@ public class AuthApiClient {
                 .as(SuccessfulUpdateResponseModel.class);
     }
 
-    @Step("Отправка patch запроса на успешное обновление пользователя")
+    @Step("Отправка PATCH запроса на успешное обновление пользователя")
     public static SuccessfulUpdateResponseModel putPartialUpdate(String accessToken, PartialUpdateBodyModel putUpdateBody) {
         return given(updateRequestSpec)
                 .header("Authorization", "Bearer " + accessToken)
@@ -149,7 +149,7 @@ public class AuthApiClient {
                 .as(SuccessfulUpdateResponseModel.class);
     }
 
-    @Step("Отправка put запроса на обновление пользователя с неверным методом - post")
+    @Step("Отправка PUT запроса на обновление пользователя с неверным методом - post")
     public static WrongUpdateMethodAllowedResponseModel errorMethodAllowedPutUpdate(String accessToken, AllUpdateBodyModel putUpdateBody) {
         return given(updateRequestSpec)
                 .header("Authorization", "Bearer " + accessToken)
@@ -162,7 +162,7 @@ public class AuthApiClient {
                 .as(WrongUpdateMethodAllowedResponseModel.class);
     }
 
-    @Step("Отправка patch запроса на обновление пользователя с неверным методом - post")
+    @Step("Отправка PATCH запроса на обновление пользователя с неверным методом - post")
     public static WrongUpdateMethodAllowedResponseModel errorMethodAllowedPatchUpdate(String accessToken, PartialUpdateBodyModel putUpdateBody) {
         return given(updateRequestSpec)
                 .header("Authorization", "Bearer " + accessToken)
