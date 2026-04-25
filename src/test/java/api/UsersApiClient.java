@@ -1,10 +1,10 @@
 package api;
 
 import io.qameta.allure.Step;
-import models.registration.*;
+import models.users.registration.*;
 
 import static io.restassured.RestAssured.given;
-import static specs.registration.RegistrationSpec.*;
+import static specs.users.registration.RegistrationSpec.*;
 
 public class UsersApiClient {
 

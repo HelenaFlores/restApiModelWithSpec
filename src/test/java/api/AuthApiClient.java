@@ -1,20 +1,20 @@
 package api;
 
 import io.qameta.allure.Step;
-import models.login.*;
-import models.logout.LogoutBodyModel;
-import models.logout.LogoutEmptyBodyModel;
-import models.logout.WrongLogoutNoValidTokenResponseModel;
-import models.logout.WrongLogoutWithoutTokenResponseModel;
-import models.update.AllUpdateBodyModel;
-import models.update.PartialUpdateBodyModel;
-import models.update.SuccessfulUpdateResponseModel;
-import models.update.WrongUpdateMethodAllowedResponseModel;
+import models.users.login.*;
+import models.users.logout.LogoutBodyModel;
+import models.users.logout.LogoutEmptyBodyModel;
+import models.users.logout.WrongLogoutNoValidTokenResponseModel;
+import models.users.logout.WrongLogoutWithoutTokenResponseModel;
+import models.users.update.AllUpdateBodyModel;
+import models.users.update.PartialUpdateBodyModel;
+import models.users.update.SuccessfulUpdateResponseModel;
+import models.users.update.WrongUpdateMethodAllowedResponseModel;
 
 import static io.restassured.RestAssured.given;
-import static specs.login.LoginSpec.*;
-import static specs.logout.LogoutSpec.*;
-import static specs.update.UpdateSpec.*;
+import static specs.users.login.LoginSpec.*;
+import static specs.users.logout.LogoutSpec.*;
+import static specs.users.update.UpdateSpec.*;
 
 public class AuthApiClient {
 
